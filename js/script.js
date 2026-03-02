@@ -1,14 +1,11 @@
 const operandos = document.querySelectorAll('.operandos');
 const operadores = document.querySelectorAll('.operadores');
 const equals = document.getElementById('equals');
+const clear = document.getElementById('clear');
 
 let currentNumber = "";
 let lastNumber = "";
 let operator = "";
-
-let state = 1;
-
-let result = 0;
 
 function calculator(a, b, operation) {
     if (operation === '+') {
@@ -25,31 +22,39 @@ function calculator(a, b, operation) {
 
 operandos.forEach(operando => {
     operando.addEventListener('click', function () {
-        if (state) {
-            currentNumber += this.value;
-        } else {
-            lastNumber = currentNumber;
-            currentNumber = "";
-            currentNumber += this.value;
-        }
-
+        currentNumber += this.value;
     })
 })
 
 operadores.forEach(operador => {
     operador.addEventListener('click', function () {
+        if (!currentNumber && lastNumber) {
+            operator = this.value;
+            return
+        }
+        if (!lastNumber) {
+            lastNumber = currentNumber;
+        } else {
+            lastNumber = calculator(Number(lastNumber), Number(currentNumber), operator);
+        }
         operator = this.value;
-        state = 0
+        currentNumber = ""
     })
+
 })
 
-function strToNumber(num) {
-    return Number(num)
-}
+clear.addEventListener('click', function () {
+    lastNumber = "";
+    currentNumber = "";
+    operator = "";
+})
 
 equals.addEventListener('click', function () {
-    result = calculator(strToNumber(lastNumber), strToNumber(currentNumber), operator);
-    alert(`${lastNumber} ${operator} ${currentNumber} = ${result}`);
-    lastNumber = result;
-    currentNumber = "";
+    if (currentNumber !== "" && operator !== "") {
+        lastNumber = calculator(Number(lastNumber), Number(currentNumber), operator);
+        console.log(lastNumber);
+
+        currentNumber = ""
+        operator = "";
+    }
 })
