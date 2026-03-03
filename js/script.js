@@ -37,7 +37,7 @@ operadores.forEach(operador => {
         }
         operator = this.value;
         currentNumber = ""
-        document.getElementById('display').textContent += operator;
+        document.getElementById('display').textContent = lastNumber + " " + operator;
     })
 })
 
