@@ -2,6 +2,7 @@ const operandos = document.querySelectorAll('.operandos');
 const operadores = document.querySelectorAll('.operadores');
 const equals = document.getElementById('equals-btn');
 const clear = document.getElementById('clear-btn');
+const del = document.getElementById('del-btn');
 
 let currentNumber = "";
 let lastNumber = "";
@@ -46,6 +47,12 @@ clear.addEventListener('click', function () {
     lastNumber = "";
     currentNumber = "";
     operator = "";
+})
+
+del.addEventListener('click', function () {
+    if (currentNumber !== "") {
+        currentNumber = currentNumber.slice(0, -1)
+    }
 })
 
 equals.addEventListener('click', function () {
