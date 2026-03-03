@@ -8,16 +8,12 @@ let currentNumber = "";
 let lastNumber = "";
 let operator = "";
 
-function calculator(a, b, operation) {
-    if (operation === '+') {
-        return a + b;
-    } else if (operation === '-') {
-        return a - b;
-    } else if (operation === '*') {
-        return a * b;
-    } else if (operation === '/') {
-        if (b === 0) return null
-        return a / b;
+function calculator(a, b, op) {
+    switch (op) {
+        case '+': return a + b
+        case '-': return a - b
+        case '*': return a * b
+        case '/': return b === 0 ? null: a * b
     }
 }
 
