@@ -1,7 +1,7 @@
 const operandos = document.querySelectorAll('.operandos');
 const operadores = document.querySelectorAll('.operadores');
-const equals = document.getElementById('equals');
-const clear = document.getElementById('clear');
+const equals = document.getElementById('equals-btn');
+const clear = document.getElementById('clear-btn');
 
 let currentNumber = "";
 let lastNumber = "";
@@ -40,7 +40,6 @@ operadores.forEach(operador => {
         operator = this.value;
         currentNumber = ""
     })
-
 })
 
 clear.addEventListener('click', function () {
