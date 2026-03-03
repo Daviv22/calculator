@@ -3,7 +3,7 @@ const operadores = document.querySelectorAll('.operadores');
 const equals = document.getElementById('equals-btn');
 const clear = document.getElementById('clear-btn');
 const del = document.getElementById('del-btn');
-
+const float = document.getElementById('float-btn');
 let currentNumber = "";
 let lastNumber = "";
 let operator = "";
@@ -45,6 +45,7 @@ clear.addEventListener('click', function () {
     lastNumber = "";
     currentNumber = "";
     operator = "";
+    document.getElementById('display').textContent = "0"; //
 })
 
 del.addEventListener('click', function () {
@@ -54,11 +55,18 @@ del.addEventListener('click', function () {
     }
 })
 
+float.addEventListener('click', function () {
+    if (Number.isInteger(Number(currentNumber))) {
+        currentNumber += '.';
+        document.getElementById('display').textContent = currentNumber || lastNumber || "0";
+    } else {
+        return
+    }
+})
+
 equals.addEventListener('click', function () {
     if (currentNumber !== "" && operator !== "") {
         lastNumber = calculator(Number(lastNumber), Number(currentNumber), operator);
-        console.log(lastNumber);
-
         currentNumber = ""
         operator = "";
 
