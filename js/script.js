@@ -13,13 +13,14 @@ function calculator(a, b, op) {
         case '+': return a + b
         case '-': return a - b
         case '*': return a * b
-        case '/': return b === 0 ? null: a * b
+        case '/': return b === 0 ? null: a / b
     }
 }
 
 operandos.forEach(operando => {
     operando.addEventListener('click', function () {
         currentNumber += this.value;
+        document.getElementById('display').textContent = currentNumber || lastNumber || "0";
     })
 })
 
@@ -36,6 +37,7 @@ operadores.forEach(operador => {
         }
         operator = this.value;
         currentNumber = ""
+        document.getElementById('display').textContent += operator;
     })
 })
 
@@ -48,6 +50,7 @@ clear.addEventListener('click', function () {
 del.addEventListener('click', function () {
     if (currentNumber !== "") {
         currentNumber = currentNumber.slice(0, -1)
+        document.getElementById('display').textContent = currentNumber || lastNumber || "0";
     }
 })
 
@@ -58,5 +61,7 @@ equals.addEventListener('click', function () {
 
         currentNumber = ""
         operator = "";
+
+        document.getElementById('display').textContent = currentNumber || lastNumber || "0";
     }
 })
