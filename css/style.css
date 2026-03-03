@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@700;800&display=swap');
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #0f0f0f;
+    --surface: #1a1a1a;
+    --surface-2: #222222;
+    --border: #2e2e2e;
+    --text: #f0f0f0;
+    --text-muted: #888;
+    --accent: #c8f542;
+    --accent-dim: #a8d030;
+    --operator-bg: #252525;
+    --operator-hover: #2e2e2e;
+    --danger: #ff5f5f;
+    --radius: 16px;
+    --radius-sm: 10px;
+}
+
+body {
+    background-color: var(--bg);
+    background-image:
+            radial-gradient(ellipse at 20% 20%, #1e2a0a22 0%, transparent 60%),
+            radial-gradient(ellipse at 80% 80%, #0a1a2a22 0%, transparent 60%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    color: var(--text);
+}
+
+header {
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+header h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.calculator {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    width: 300px;
+    box-shadow:
+            0 0 0 1px #ffffff08,
+            0 32px 64px #00000088;
+}
+
+#display {
+    display: block;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--accent);
+    text-align: right;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    min-height: 68px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color 0.15s ease;
+}
+
+.numbers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+/* Make 0 span full width */
+.numbers button:last-child {
+    grid-column: 1 / -1;
+}
+
+.operators {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+button {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 16px 8px;
+    cursor: pointer;
+    transition:
+            background 0.12s ease,
+            border-color 0.12s ease,
+            transform 0.08s ease,
+            box-shadow 0.12s ease;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+}
+
+button:hover {
+    background: #2a2a2a;
+    border-color: #3a3a3a;
+}
+
+button:active {
+    transform: scale(0.95);
+    background: #303030;
+}
+
+/* Digit buttons */
+.operandos {
+    font-size: 18px;
+    font-weight: 500;
+    color: #e8e8e8;
+}
+
+/* Operator buttons */
+.operadores {
+    background: var(--operator-bg);
+    color: var(--accent);
+    font-size: 18px;
+    font-weight: 500;
+    border-color: #2a2a2a;
+}
+
+.operadores:hover {
+    background: var(--operator-hover);
+    border-color: var(--accent);
+    box-shadow: 0 0 12px #c8f54218;
+}
+
+/* Equals button */
+#equals-btn {
+    background: var(--accent);
+    color: #0f0f0f;
+    font-size: 20px;
+    font-weight: 500;
+    border-color: var(--accent);
+    grid-column: span 2;
+}
+
+#equals-btn:hover {
+    background: var(--accent-dim);
+    border-color: var(--accent-dim);
+    box-shadow: 0 0 20px #c8f54230;
+}
+
+#equals-btn:active {
+    background: #b0e020;
+}
+
+/* Clear button */
+#clear-btn {
+    color: var(--danger);
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-color: #2a2a2a;
+}
+
+#clear-btn:hover {
+    border-color: var(--danger);
+    box-shadow: 0 0 12px #ff5f5f18;
+}
+
+/* Del button */
+#del-btn {
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+#del-btn:hover {
+    color: var(--text);
+}
+
+/* Float button */
+#float-btn {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+#float-btn:hover {
+    color: var(--text);
+}
