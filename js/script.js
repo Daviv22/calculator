@@ -10,10 +10,10 @@ let operator = "";
 
 function calculator(a, b, op) {
     switch (op) {
-        case '+': return a + b
-        case '-': return a - b
-        case '*': return a * b
-        case '/': return b === 0 ? null: a / b
+        case '+': return parseFloat((a + b).toFixed(10))
+        case '-': return parseFloat((a - b).toFixed(10))
+        case '*': return parseFloat((a * b).toFixed(10))
+        case '/': return b === 0 ? null: parseFloat((a / b).toFixed(10))
     }
 }
 
@@ -56,9 +56,10 @@ del.addEventListener('click', function () {
 })
 
 float.addEventListener('click', function () {
-    if (Number.isInteger(Number(currentNumber))) {
+    if (currentNumber === "" || currentNumber === ".") return;
+    if (!currentNumber.includes('.')) {
         currentNumber += '.';
-        document.getElementById('display').textContent = currentNumber || lastNumber || "0";
+        document.getElementById('display').textContent = currentNumber;
     }
 })
 
