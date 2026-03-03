@@ -59,8 +59,6 @@ float.addEventListener('click', function () {
     if (Number.isInteger(Number(currentNumber))) {
         currentNumber += '.';
         document.getElementById('display').textContent = currentNumber || lastNumber || "0";
-    } else {
-        return
     }
 })
 
