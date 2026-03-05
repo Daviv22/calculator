@@ -4,6 +4,7 @@ const equals = document.getElementById('equals-btn');
 const clear = document.getElementById('clear-btn');
 const del = document.getElementById('del-btn');
 const float = document.getElementById('float-btn');
+
 let currentNumber = "";
 let lastNumber = "";
 let operator = "";
@@ -17,106 +18,84 @@ function calculator(a, b, op) {
     }
 }
 
-operandos.forEach(operando => {
-    operando.addEventListener('click', function () {
-        currentNumber += this.value;
-        document.getElementById('display').textContent = currentNumber || lastNumber || "0";
-    })
-})
-
-operadores.forEach(operador => {
-    operador.addEventListener('click', function () {
-        if (!currentNumber && lastNumber) {
-            operator = this.value;
-            return
-        }
-        if (!lastNumber) {
-            lastNumber = currentNumber;
-        } else {
-            lastNumber = calculator(Number(lastNumber), Number(currentNumber), operator);
-        }
-        operator = this.value;
-        currentNumber = ""
+function updateDisplay() {
+    if (operator && !currentNumber) {
         document.getElementById('display').textContent = lastNumber + " " + operator;
-    })
-})
+    } else {
+        document.getElementById('display').textContent = currentNumber || lastNumber || "0";
+    }
+}
 
-clear.addEventListener('click', function () {
+function pressDigit(value) {
+    currentNumber += value;
+    updateDisplay();
+}
+
+function pressOperator(value) {
+    if (!currentNumber && lastNumber) {
+        operator = value;
+        updateDisplay();
+        return;
+    }
+    if (!lastNumber) {
+        lastNumber = currentNumber;
+    } else {
+        lastNumber = calculator(Number(lastNumber), Number(currentNumber), operator);
+    }
+    operator = value;
+    currentNumber = "";
+    updateDisplay();
+}
+
+function pressEquals() {
+    if (currentNumber !== "" && operator !== "") {
+        lastNumber = calculator(Number(lastNumber), Number(currentNumber), operator);
+        currentNumber = "";
+        operator = "";
+        updateDisplay();
+    }
+}
+
+function pressClear() {
     lastNumber = "";
     currentNumber = "";
     operator = "";
-    document.getElementById('display').textContent = "0"; //
-})
+    document.getElementById('display').textContent = "0";
+}
 
-del.addEventListener('click', function () {
+function pressDel() {
     if (currentNumber !== "") {
-        currentNumber = currentNumber.slice(0, -1)
-        document.getElementById('display').textContent = currentNumber || lastNumber || "0";
+        currentNumber = currentNumber.slice(0, -1);
+        updateDisplay();
     }
-})
+}
 
-float.addEventListener('click', function () {
+function pressFloat() {
     if (currentNumber === "" || currentNumber === ".") return;
     if (!currentNumber.includes('.')) {
         currentNumber += '.';
-        document.getElementById('display').textContent = currentNumber;
+        updateDisplay();
     }
+}
+
+operandos.forEach(operando => {
+    operando.addEventListener('click', function () { pressDigit(this.value); })
 })
 
-equals.addEventListener('click', function () {
-    if (currentNumber !== "" && operator !== "") {
-        lastNumber = calculator(Number(lastNumber), Number(currentNumber), operator);
-        currentNumber = ""
-        operator = "";
-
-        document.getElementById('display').textContent = currentNumber || lastNumber || "0";
-    }
+operadores.forEach(operador => {
+    operador.addEventListener('click', function () { pressOperator(this.value); })
 })
+
+equals.addEventListener('click', pressEquals);
+clear.addEventListener('click', pressClear);
+del.addEventListener('click', pressDel);
+float.addEventListener('click', pressFloat);
 
 document.addEventListener('keydown', function (e) {
-    if (e.key >= '0' && e.key <= '9') {
-        currentNumber += e.key;
-        document.getElementById('display').textContent = currentNumber || lastNumber || "0";
-
-    } else if (['+', '-', '*', '/'].includes(e.key)) {
-        if (!currentNumber && lastNumber) {
-            operator = e.key;
-            return;
-        }
-        if (!lastNumber) {
-            lastNumber = currentNumber;
-        } else {
-            lastNumber = calculator(Number(lastNumber), Number(currentNumber), operator);
-        }
-        operator = e.key;
-        currentNumber = "";
-        document.getElementById('display').textContent = lastNumber + " " + operator;
-
-    } else if (e.key === 'Enter') {
-        if (currentNumber !== "" && operator !== "") {
-            lastNumber = calculator(Number(lastNumber), Number(currentNumber), operator);
-            currentNumber = "";
-            operator = "";
-            document.getElementById('display').textContent = currentNumber || lastNumber || "0";
-        }
-
-    } else if (e.key === 'Backspace') {
-        if (currentNumber !== "") {
-            currentNumber = currentNumber.slice(0, -1);
-            document.getElementById('display').textContent = currentNumber || lastNumber || "0";
-        }
-
-    } else if (e.key === 'Escape') {
-        lastNumber = "";
-        currentNumber = "";
-        operator = "";
-        document.getElementById('display').textContent = "0";
-
-    } else if (e.key === '.') {
-        if (currentNumber === "" || currentNumber === ".") return;
-        if (!currentNumber.includes('.')) {
-            currentNumber += '.';
-            document.getElementById('display').textContent = currentNumber;
-        }
-    }
+    if (e.key >= '0' && e.key <= '9')           pressDigit(e.key);
+    else if (['+','-','*','/'].includes(e.key)) pressOperator(e.key);
+    else if (e.key === 'Enter')                 pressEquals();
+    else if (e.key === 'Escape')                pressClear();
+    else if (e.key === 'Backspace')             pressDel();
+    else if (e.key === '.')                     pressFloat();
 })
