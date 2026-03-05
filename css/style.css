@@ -223,3 +223,8 @@ button:active {
 #float-btn:hover {
     color: var(--text);
 }
+
+/* Sign button */
+#sign-btn {
+    color: var(--text-muted);
+}
